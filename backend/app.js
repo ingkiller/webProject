@@ -7,6 +7,7 @@ const logger = require('morgan');
 
 const bodyParser  = require("body-parser")
 const mongoose = require('mongoose');
+const config = require('./controllers/config')
 var authCtrl = require('./controllers/auth');
 var middleware = require('./controllers/middleware');
 // Configuramos Express
@@ -20,7 +21,8 @@ var router = express.Router();
 router.post('/auth/signup', authCtrl.emailSignup);
 router.post('/auth/login', authCtrl.emailLogin);
 
-mongoose.connect("mongodb://localhost:27017/webApp", { useNewUrlParser: true,useUnifiedTopology: true ,user: 'admin', pass: 'admin'})
+mongoose.connect(config.DB_URL,
+    { useNewUrlParser: true,useUnifiedTopology: true ,user: config.DB_USER, pass: config.DB_PASS})
     .then(() =>  console.log('connection successful'))
     .catch((err) => console.error(err));
 
