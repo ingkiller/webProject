@@ -120,9 +120,11 @@ const appSlice = createSlice({
         isLogin:false,
         errorLogin:false,
         isFetchingUser:false,
+        isChangePass:false,
         changePass:null,
+        errorChangePass:false,
         isInit:false,
-        updatedProfile:null
+        updatedProfile:null,
     },
     reducers: {
         onLogOut(state,action){
@@ -210,18 +212,18 @@ const appSlice = createSlice({
             state.updatedProfile=false
         },
         [userChangePass.pending]:state=>{
-            state.isFetchingUser = true
-            state.errorLogin=false
+            state.isChangePass = true
+            state.errorChangePass=false
         },
         [userChangePass.fulfilled]:(state,action)=>{
-            state.isFetchingUser = false
-            state.errorLogin=false
-
-            state.changePass = action.payload
+            state.isChangePass = false
+            state.errorChangePass=false
+            state.changePass = true
         },
         [userChangePass.rejected]:(state,action)=>{
-            state.isFetchingUser = false
-            state.errorLogin=action.payload
+            state.isChangePass = false
+            state.errorChangePass = true
+            console.log('userChangePass.rejected:',action.payload)
         }
     }
 

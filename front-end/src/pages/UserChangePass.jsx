@@ -4,7 +4,7 @@ import {userChangePass} from "../reducers/app";
 
 const UserChangePass=props=>{
     const dispatch = useDispatch()
-    const {errorUser,isFetchingUser}=useSelector(state=>state.user)
+    const {user:{errorUser,isFetchingUser},app:{isChangePass, changePass, errorChangePass}}=useSelector(state=>state)
 
     const [oldPass,setOldPass]=useState("")
     const [pass,setPass]=useState("")
@@ -34,7 +34,7 @@ const UserChangePass=props=>{
         event.preventDefault()
         if(pass === rpass)
             dispatch(userChangePass({oldPass:oldPass,newPass:pass})).then(result=>{
-                if(result.payload.subtitle === true){
+                if(result.payload.success === true){
                     setError(false)
                     setMsgError('')
                     setOldPass("")
@@ -48,6 +48,8 @@ const UserChangePass=props=>{
         else {
             setError(true)
             setMsgError('Pass and confirm pass must be equals.')
+            setSuccess(false)
+            setSuccessMsg(null)
             return false
         }
     }
@@ -78,8 +80,8 @@ const UserChangePass=props=>{
                                name="rpassword" minLength={6} id="rpassword" onChange={onChangeRPass}/>
                     </div>
                     {
-                        error && <div className="alert alert-danger" role="alert">
-                            {msgError}
+                        errorChangePass && <div className="alert alert-danger" role="alert">
+                            Error, try again
                         </div>
                     }
                     {
@@ -88,7 +90,7 @@ const UserChangePass=props=>{
                         </div>
                     }
                     {
-                        isFetchingUser?<div className="spinner-border text-primary" role="status">
+                        isChangePass?<div className="spinner-border text-primary" role="status">
                             <span className="sr-only">Loading...</span>
                         </div>: <button type="submit" className="btn btn-primary float-right"
                                         id="btnLogin">Change
