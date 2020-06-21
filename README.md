@@ -1,7 +1,7 @@
-#@Posty
+# @Posty
  Web site to comment and public posts.
 
-##Run development environment using npm
+## Run development environment using npm
 - Download code from Github
 - Go to directory front-end and install dependencies
 - run `npm run startDev`
@@ -10,7 +10,7 @@
 - Update back-end/controller/config.js
 - run `npm start`
 
-##Run production environment using npm
+## Run production environment using npm
 - Download code from Github
 - Go to directory front-end and install dependencies
 - run `npm start`
@@ -21,12 +21,12 @@
 
 ## Available Scripts
 
-##In the backend directory, you can run:
+## In the backend directory, you can run:
 ### `npm start`
 Runs the app in the production mode.<br />
 Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
-##In the front-end directory, you can run:
+## In the front-end directory, you can run:
 
 ### `npm start`
 
