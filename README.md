@@ -1,5 +1,5 @@
 #@Posty
-Web site to comment and public posts.
+ Web site to comment and public posts.
 
 ##Run development environment using npm
 - Download code from Github
