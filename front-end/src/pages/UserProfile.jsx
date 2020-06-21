@@ -7,7 +7,7 @@ import {requestUserProfile} from "../reducers/user";
 import Avatar from "react-avatar";
 const UserProfile=props=>{
     const dispatch = useDispatch()
-    const {errorUser,isFetchingUser}=useSelector(state=>state.user)
+    const {user:{errorUser,isFetchingUser},app:{updatedProfile}}=useSelector(state=>state)
     const params = useParams()
 
 
@@ -100,6 +100,16 @@ const UserProfile=props=>{
                         <textarea className="form-control rounded-0" id="about"
                                   rows="3" value={_about} onChange={onChangeAbout}></textarea>
                     </div>
+                    {
+                        updatedProfile === true && <div className="alert alert-success" role="alert">
+                            Profile Updated!!
+                        </div>
+                    }
+                    {
+                        updateUserProfile === false && <div className="alert alert-danger" role="alert">
+                            System error, please contact site admin.
+                        </div>
+                    }
                     {
                         isFetchingUser?<div className="spinner-border text-primary" role="status">
                             <span className="sr-only">Loading...</span>

@@ -121,7 +121,8 @@ const appSlice = createSlice({
         errorLogin:false,
         isFetchingUser:false,
         changePass:null,
-        isInit:false
+        isInit:false,
+        updatedProfile:null
     },
     reducers: {
         onLogOut(state,action){
@@ -201,10 +202,12 @@ const appSlice = createSlice({
             console.log('updateUserProfile:',action.payload)
             state.user=action.payload.user
             state.token=action.payload.token
+            state.updatedProfile=true
         },
         [updateUserProfile.rejected]:(state,action)=>{
             state.isFetchingUser = false
             state.errorLogin=action.payload
+            state.updatedProfile=false
         },
         [userChangePass.pending]:state=>{
             state.isFetchingUser = true
