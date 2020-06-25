@@ -222,7 +222,7 @@ const appSlice = createSlice({
         },
         [userChangePass.rejected]:(state,action)=>{
             state.isChangePass = false
-            state.errorChangePass = true
+            state.errorChangePass = action.payload
             console.log('userChangePass.rejected:',action.payload)
         }
     }

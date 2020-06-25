@@ -27,7 +27,7 @@ const SearchPost = props=>{
         errorSearchPagin}}=useSelector(state=>state)
     const onFilter=value=>{
         setFilter(value)
-        Promise.allSettled([dispatch(requestPostFilterPagin({filter:value,nElem:nElem})), dispatch(requestPostFilter({filter:value,indexStart:0,nElem:nElem}))])
+        Promise.all([dispatch(requestPostFilterPagin({filter:value,nElem:nElem})), dispatch(requestPostFilter({filter:value,indexStart:0,nElem:nElem}))])
     }
 
     const _onChangePage=(evt)=>{
@@ -39,7 +39,7 @@ const SearchPost = props=>{
 
     }
     const _onChangeNElement=(n)=>{
-        Promise.allSettled([dispatch(requestPostFilterPagin({filter:filter,nElem:n})), dispatch(requestPostFilter({filter:filter,indexStart:0,nElem:n}))])
+        Promise.all([dispatch(requestPostFilterPagin({filter:filter,nElem:n})), dispatch(requestPostFilter({filter:filter,indexStart:0,nElem:n}))])
         setCurrentPage(0)
         setNElem(n)
     }

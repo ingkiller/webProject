@@ -21,7 +21,7 @@ const Posts = props=>{
 
 
     useEffect(()=>{
-        Promise.allSettled([dispatch(requestPostPaginator({nElem:nElem})),dispatch(requestPost({indexStart:currentPage,nElem:nElem}))])
+        Promise.all([dispatch(requestPostPaginator({nElem:nElem})),dispatch(requestPost({indexStart:currentPage,nElem:nElem}))])
     },[])
 
     const _onClickComment=comment=>{
@@ -44,7 +44,7 @@ const Posts = props=>{
 
     }
     const _onChangeNElement=(n)=>{
-        Promise.allSettled([dispatch(requestPostPaginator({nElem:n})),dispatch(requestPost({indexStart:0,nElem:n}))])
+        Promise.all([dispatch(requestPostPaginator({nElem:n})),dispatch(requestPost({indexStart:0,nElem:n}))])
         setCurrentPage(0)
         setNElem(n)
     }

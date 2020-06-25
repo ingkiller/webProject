@@ -15,7 +15,6 @@ const  App=(props)=> {
         console.log('call init')
         dispatch(init())
     },[])
-  const [_isLogin,setIsLogin]=useState(false)
 
     const render = ()=>{
 
@@ -28,9 +27,6 @@ const  App=(props)=> {
     }
 
   return (<div>
-        {
-           // (isLogin && docCookies.getItem('token') !== null)?<LogIn/>:<LogOut/>
-        }
           {
               render()
           }

@@ -32,7 +32,6 @@ router.post("/addPost", (req,res,next)=>{
 
 
      }catch (e) {
-          console.log('Error:',e)
           return  res.status(405).send({error:true,errorCode:405,desc:'Method not allowed'})
      }
 })
@@ -71,6 +70,7 @@ router.post('/post-pagin',async (req,res,next)=>{
           res.status(200).send(result)
 
      }catch (e) {
+          console.log('Error /post:',e)
           res.status(500).send()
      }
 })
@@ -110,7 +110,6 @@ router.post('/comment/add',async (req,res,next)=>{
 router.post('/comment/get-by-post',async (req,res,next)=>{
      try{
           const{postId}=req.body
-          console.log('postId:',postId)
           Comment.find({post:postId},async (err,result)=>{
                if(err){
                     res.status(400).send()
@@ -145,8 +144,7 @@ router.get('/stats',async (req,res,next)=>{
                , {$group:
                         {_id: '$category', total: {$sum: 1} }
                }],(err,docs)=>{
-               console.log('err:',err)
-               console.log('docs:',docs)
+
                return res.status(200).send(docs)
           })
 
@@ -184,6 +182,7 @@ router.post('/paginator',async (req,res,next)=>{
                return res.status(200).send({nElem:nElem,pages:0,total:0})
           })
      }catch (e) {
+          console.log('Error /paginator:',e)
           return res.status(500).send()
      }
 

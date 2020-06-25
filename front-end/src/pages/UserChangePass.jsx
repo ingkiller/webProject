@@ -1,37 +1,60 @@
-import React, {memo, useState} from "react";
+import React, {memo, useCallback, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {userChangePass} from "../reducers/app";
+import {debounce} from "lodash";
 
 const UserChangePass=props=>{
     const dispatch = useDispatch()
-    const {user:{errorUser,isFetchingUser},app:{isChangePass, changePass, errorChangePass}}=useSelector(state=>state)
+    const {app:{isChangePass, changePass, errorChangePass}}=useSelector(state=>state)
 
     const [oldPass,setOldPass]=useState("")
     const [pass,setPass]=useState("")
     const [rpass,setRPass]=useState("")
 
-    const [error,setError]=useState(false)
+    const [errorPass,setError]=useState(false)
     const [msgError,setMsgError]=useState("")
 
     const [success,setSuccess]=useState(false)
     const [successMsg,setSuccessMsg]=useState("")
 
+    const delayOldPass = useCallback(debounce((value)=>{
+        setOldPass(value)
+
+    },500),[])
+
     const onChangeOldPass=event=>{
         event.preventDefault()
-        setOldPass(event.target.value)
+        delayOldPass(event.target.value)
     }
+
+    const delayPass = useCallback(debounce((value)=>{
+        setPass(value)
+    },500),[])
 
     const onChangePass=event=>{
         event.preventDefault()
-        setPass(event.target.value)
+        delayPass(event.target.value)
     }
+
+    const delayRPass = useCallback(debounce((value)=>{
+        setRPass(value)
+    },500),[])
+
     const onChangeRPass=event=>{
         event.preventDefault()
-        setRPass(event.target.value)
+        delayRPass(event.target.value)
     }
 
     const _onSubmit=event=>{
         event.preventDefault()
+        setError(false)
+        if(oldPass === pass){
+            setError(true)
+            setMsgError('New password must be different from the current one.')
+            setSuccess(false)
+            setSuccessMsg(null)
+            return false
+        }
         if(pass === rpass)
             dispatch(userChangePass({oldPass:oldPass,newPass:pass})).then(result=>{
                 if(result.payload.success === true){
@@ -53,14 +76,26 @@ const UserChangePass=props=>{
             return false
         }
     }
-    const render=()=>{
+    const displayError=()=>{
 
-        if(errorUser){
+        if(errorPass)
             return <div className="alert alert-danger" role="alert">
-                System error, please contact site admin.
+                {msgError}
+            </div>
+        if(errorChangePass.errorCode === 422){
+            return <div className="alert alert-danger" role="alert">
+                Incorrect current pass.
             </div>
         }
-
+        if(errorChangePass.errorCode === 500){
+            return <div className="alert alert-danger" role="alert">
+                System Error, please contact site admin.
+            </div>
+        }
+        return null
+    }
+    const render=()=>{
+console.log('re render')
         return <div className="card">
             <div className="card-body">
                 <form onSubmit={_onSubmit} className="form"  role="form" id="formLogin">
@@ -79,15 +114,14 @@ const UserChangePass=props=>{
                         <input type="password" className="form-control form-control-lg rounded-0"
                                name="rpassword" minLength={6} id="rpassword" onChange={onChangeRPass}/>
                     </div>
-                    {
-                        errorChangePass && <div className="alert alert-danger" role="alert">
-                            Error, try again
-                        </div>
-                    }
+
                     {
                         success && <div className="alert alert-success" role="alert">
                             {successMsg}
                         </div>
+                    }
+                    {
+                        displayError()
                     }
                     {
                         isChangePass?<div className="spinner-border text-primary" role="status">

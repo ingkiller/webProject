@@ -15,7 +15,7 @@ router.post('/info',async (req,res,next)=>{
         const {userId}=req.body
         let result = await Users.findOne({_id:userId},{name:1,email:1,about:1,about:1,date:1})
         if(result !== null){
-            console.log('Result:',result)
+
             Post.aggregate([
                 {
                     $match: {user:result._id}
@@ -98,7 +98,6 @@ router.post('/change-pass',async (req,res,next)=>{
             }else {
                 _user.comparePassword(_user.pass, oldPass,async (err, isMatch) =>{
                     if (err || !isMatch) {
-                        console.log('comparePassword:',err)
                         return res.status(422).send()
                     }else {
                         bcrypt.genSalt(10, function(err, salt) {
